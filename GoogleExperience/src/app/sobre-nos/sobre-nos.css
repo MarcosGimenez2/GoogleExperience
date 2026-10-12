@@ -1,0 +1,137 @@
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.about-section {
+  padding: 70px 6%;
+  color: #f8fafc;
+  background: #080e1b;
+  border: 1px solid rgba(96, 165, 250, 0.08);
+  border-radius: 24px;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 16px;
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: clamp(30px, 4vw, 46px);
+  letter-spacing: -1.5px;
+  line-height: 1.2;
+}
+
+.section-heading > p {
+  margin: 18px auto 0;
+  color: #aab8cc;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 22px;
+  align-items: stretch;
+}
+
+.info-panel {
+  padding: 28px;
+  background: #111c30;
+  border: 1px solid #263650;
+  border-radius: 16px;
+}
+
+.panel-label {
+  display: block;
+  margin-bottom: 20px;
+  color: #60a5fa;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.info-panel h3 {
+  margin: 0 0 16px;
+  color: #f8fafc;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+.info-panel p {
+  color: #aab8cc;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.about-main p + p {
+  margin-top: 16px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 65px minmax(0, 1fr);
+  gap: 16px;
+  padding: 17px 0;
+  border-bottom: 1px solid #263650;
+}
+
+  .timeline-item:first-child {
+    padding-top: 0;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+.timeline-year {
+  color: #60a5fa;
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.timeline-item h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .about-section {
+    padding: 45px 20px;
+    border-radius: 16px;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .info-panel {
+    padding: 22px;
+  }
+}

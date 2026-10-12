@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GoogleExperience/GoogleExperience.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

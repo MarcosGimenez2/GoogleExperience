@@ -1,0 +1,488 @@
+
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: clip;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  --bg: #080d19;
+  --surface: #101a2b;
+  --surface-hover: #15233a;
+  --border: #263650;
+  --text: #f4f7fc;
+  --muted: #a5b2c8;
+  --blue: #8ab4f8;
+  --accent: #4285f4;
+  --header-bg: rgba(8, 13, 25, 0.93);
+  --soft-bg: #0b1220;
+  --footer-bg: #060a13;
+  --shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  min-height: 100vh;
+  overflow: clip;
+  color: var(--text);
+  background: var(--bg);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+  .app-shell[data-theme='light'] {
+    --bg: #f5f7fb;
+    --surface: #ffffff;
+    --surface-hover: #f0f5fd;
+    --border: #d9e2ef;
+    --text: #172033;
+    --muted: #5c687c;
+    --blue: #4285f4;
+    --accent: #4285f4;
+    --header-bg: rgba(255, 255, 255, 0.94);
+    --soft-bg: #edf2f9;
+    --footer-bg: #eef2f8;
+    --shadow: 0 12px 32px rgba(23, 32, 51, 0.055);
+  }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell section[id] {
+  scroll-margin-top: 95px;
+}
+
+.app-shell app-home,
+.app-shell app-sobre-nos,
+.app-shell app-tecnologias,
+.app-shell app-desafio,
+.app-shell app-impactos,
+.app-shell app-footer {
+  display: block;
+}
+
+/* =========================================
+   CABEÇALHOS DAS SEÇÕES
+========================================= */
+
+/* Mantém o desafio fora desta personalização */
+
+:host ::ng-deep .app-shell .about-section .section-heading,
+:host ::ng-deep .app-shell .technologies-section .section-heading,
+:host ::ng-deep .app-shell .impacts-section .section-heading {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+  /* Etiqueta numerada */
+
+  :host ::ng-deep .app-shell .about-section .section-heading .eyebrow,
+  :host ::ng-deep .app-shell .technologies-section .section-heading .eyebrow,
+  :host ::ng-deep .app-shell .impacts-section .section-heading .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    margin-bottom: 18px;
+    padding: 8px 14px;
+    color: #a9c8ff;
+    background: rgba(66, 133, 244, 0.12);
+    border: 1px solid rgba(66, 133, 244, 0.24);
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 750;
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+  }
+
+    /* Indicador azul */
+
+    :host ::ng-deep .app-shell .about-section .section-heading .eyebrow::before,
+    :host ::ng-deep .app-shell .technologies-section .section-heading .eyebrow::before,
+    :host ::ng-deep .app-shell .impacts-section .section-heading .eyebrow::before {
+      content: '';
+      display: inline-block;
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4285f4;
+      box-shadow: 0 0 10px rgba(66, 133, 244, 0.45);
+    }
+
+  /* Títulos */
+
+  :host ::ng-deep .app-shell .about-section .section-heading h2,
+  :host ::ng-deep .app-shell .technologies-section .section-heading h2,
+  :host ::ng-deep .app-shell .impacts-section .section-heading h2 {
+    margin: 0 0 16px;
+    color: var(--text);
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 750;
+    line-height: 1.12;
+    letter-spacing: -1.7px;
+    text-wrap: balance;
+  }
+
+  /* Descrições */
+
+  :host ::ng-deep .app-shell .about-section .section-heading > p,
+  :host ::ng-deep .app-shell .technologies-section .section-heading > p,
+  :host ::ng-deep .app-shell .impacts-section .section-heading > p {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.85;
+  }
+
+/* Etiquetas no tema claro */
+
+:host ::ng-deep .app-shell[data-theme='light'] .about-section .section-heading .eyebrow,
+:host ::ng-deep .app-shell[data-theme='light'] .technologies-section .section-heading .eyebrow,
+:host ::ng-deep .app-shell[data-theme='light'] .impacts-section .section-heading .eyebrow {
+  color: #2458a6;
+  background: #e8f0fe;
+  border-color: #d2e1fc;
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .about-section .section-heading .eyebrow::before,
+  :host ::ng-deep .app-shell[data-theme='light'] .technologies-section .section-heading .eyebrow::before,
+  :host ::ng-deep .app-shell[data-theme='light'] .impacts-section .section-heading .eyebrow::before {
+    background: #4285f4;
+    box-shadow: 0 0 8px rgba(66, 133, 244, 0.25);
+  }
+
+/* =========================================
+   TEMA CLARO — FUNDOS
+========================================= */
+
+:host ::ng-deep .app-shell[data-theme='light'] .hero,
+:host ::ng-deep .app-shell[data-theme='light'] .about-section,
+:host ::ng-deep .app-shell[data-theme='light'] .technologies-section,
+:host ::ng-deep .app-shell[data-theme='light'] .impacts-section {
+  color: var(--text);
+  background: var(--bg);
+  border-color: transparent;
+}
+
+/* Home */
+
+:host ::ng-deep .app-shell[data-theme='light'] .hero {
+  background: radial-gradient( ellipse at 82% 42%, rgba(66, 133, 244, 0.09), transparent 43% ), var(--bg);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .hero h1,
+  :host ::ng-deep .app-shell[data-theme='light'] .section-heading h2,
+  :host ::ng-deep .app-shell[data-theme='light'] .info-panel h3,
+  :host ::ng-deep .app-shell[data-theme='light'] .timeline-item h3,
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-card h3,
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-details h4,
+  :host ::ng-deep .app-shell[data-theme='light'] .impact-card h3,
+  :host ::ng-deep .app-shell[data-theme='light'] .impact-conclusion h3 {
+    color: var(--text);
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .hero-description,
+:host ::ng-deep .app-shell[data-theme='light'] .hero-caption,
+:host ::ng-deep .app-shell[data-theme='light'] .section-heading > p,
+:host ::ng-deep .app-shell[data-theme='light'] .info-panel p,
+:host ::ng-deep .app-shell[data-theme='light'] .timeline-item p,
+:host ::ng-deep .app-shell[data-theme='light'] .technology-card > p,
+:host ::ng-deep .app-shell[data-theme='light'] .technology-card summary > p,
+:host ::ng-deep .app-shell[data-theme='light'] .technology-details p,
+:host ::ng-deep .app-shell[data-theme='light'] .impact-card p,
+:host ::ng-deep .app-shell[data-theme='light'] .impact-conclusion p {
+  color: var(--muted);
+}
+
+/* Sobre nós */
+
+:host ::ng-deep .app-shell[data-theme='light'] .info-panel {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .timeline-item {
+  border-bottom-color: var(--border);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .timeline-item:last-child {
+    border-bottom-color: transparent;
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .timeline-year,
+:host ::ng-deep .app-shell[data-theme='light'] .panel-label {
+  color: var(--blue);
+}
+
+/* Tecnologias */
+
+:host ::ng-deep .app-shell[data-theme='light'] .technology-card {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-card:hover {
+    background: var(--surface-hover);
+    border-color: #a8c5f7;
+    box-shadow: 0 16px 36px rgba(23, 32, 51, 0.08);
+  }
+
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-card details {
+    color: var(--text);
+    border-top-color: var(--border);
+  }
+
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-card summary {
+    color: #2458a6;
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .technology-details {
+  color: var(--text);
+  background: #f8faff;
+  border-top-color: var(--border);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-details h4 {
+    color: #243247;
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .technology-category,
+:host ::ng-deep .app-shell[data-theme='light'] .card-action {
+  color: #2563eb;
+}
+
+/* Cores dos ícones */
+
+:host ::ng-deep .app-shell[data-theme='light'] .technology-icon {
+  background: #f0f4fa;
+  border-color: #e0e7f1;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-blue {
+  color: #4285f4;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-purple {
+  color: #8b5cf6;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-green {
+  color: #188038;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-cyan {
+  color: #0891b2;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-red {
+  color: #d93025;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .icon-yellow {
+  color: #b78103;
+}
+
+/* Botões */
+
+:host ::ng-deep .app-shell[data-theme='light'] .primary-button,
+:host ::ng-deep .app-shell[data-theme='light'] .technology-link {
+  color: #ffffff;
+  background: #1a73e8;
+  border-color: #1a73e8;
+  box-shadow: 0 5px 14px rgba(26, 115, 232, 0.13);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .primary-button:hover,
+  :host ::ng-deep .app-shell[data-theme='light'] .technology-link:hover {
+    color: #ffffff;
+    background: #1558b0;
+    border-color: #1558b0;
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .secondary-button {
+  color: #243247;
+  background: #ffffff;
+  border-color: #cbd7e8;
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .secondary-button:hover {
+    color: #1746a2;
+    background: #eaf1fc;
+    border-color: #a8c5f7;
+  }
+
+/* Ilustração da Home */
+
+:host ::ng-deep .app-shell[data-theme='light'] .center-circle {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: #cbdcf5;
+  box-shadow: 0 0 45px rgba(66, 133, 244, 0.12);
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .center-caption {
+  color: #64748b;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .floating-card {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.96);
+  border-color: var(--border);
+  box-shadow: 0 8px 24px rgba(23, 32, 51, 0.08);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .floating-card strong {
+    color: var(--text);
+  }
+
+  :host ::ng-deep .app-shell[data-theme='light'] .floating-card small {
+    color: var(--muted);
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .orbit {
+  border-color: rgba(66, 133, 244, 0.18);
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .orbit-two {
+  border-color: rgba(66, 133, 244, 0.14);
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .orbit-three {
+  border-color: rgba(66, 133, 244, 0.10);
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .visual-glow {
+  opacity: 0.09;
+}
+
+/* Impactos */
+
+:host ::ng-deep .app-shell[data-theme='light'] .impact-card {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .impact-card:hover {
+    border-color: #a8c5f7;
+    box-shadow: 0 16px 36px rgba(23, 32, 51, 0.08);
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .impact-icon {
+  color: #1a73e8;
+  background: #eaf2ff;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .impact-label {
+  color: #2563eb;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .impact-conclusion {
+  color: var(--text);
+  background: linear-gradient(110deg, #eaf2ff, #edf8f0);
+  border-color: #d5e2f5;
+}
+
+:host ::ng-deep .app-shell[data-theme='light'] .conclusion-symbol {
+  color: #ffffff;
+  background: #4285f4;
+}
+
+/* Rodapé */
+
+:host ::ng-deep .app-shell[data-theme='light'] .footer {
+  color: var(--text);
+  background: var(--footer-bg);
+  border-color: var(--border);
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .footer p {
+    color: var(--muted);
+  }
+
+:host ::ng-deep .app-shell[data-theme='light'] .back-to-top {
+  color: #2563eb;
+}
+
+  :host ::ng-deep .app-shell[data-theme='light'] .back-to-top:hover {
+    color: #1746a2;
+  }
+
+/* ACESSIBILIDADE */
+
+:host ::ng-deep .app-shell a:focus-visible,
+:host ::ng-deep .app-shell button:focus-visible {
+  outline: 2px solid #4285f4;
+  outline-offset: 3px;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 680px) {
+  .app-shell section[id] {
+    scroll-margin-top: 125px;
+  }
+
+  :host ::ng-deep .app-shell .about-section .section-heading,
+  :host ::ng-deep .app-shell .technologies-section .section-heading,
+  :host ::ng-deep .app-shell .impacts-section .section-heading {
+    margin-bottom: 30px;
+  }
+
+    :host ::ng-deep .app-shell .about-section .section-heading .eyebrow,
+    :host ::ng-deep .app-shell .technologies-section .section-heading .eyebrow,
+    :host ::ng-deep .app-shell .impacts-section .section-heading .eyebrow {
+      gap: 7px;
+      margin-bottom: 15px;
+      padding: 7px 11px;
+      font-size: 9px;
+      letter-spacing: 1.2px;
+    }
+
+    :host ::ng-deep .app-shell .about-section .section-heading h2,
+    :host ::ng-deep .app-shell .technologies-section .section-heading h2,
+    :host ::ng-deep .app-shell .impacts-section .section-heading h2 {
+      font-size: clamp(29px, 8vw, 38px);
+      letter-spacing: -1.2px;
+    }
+
+    :host ::ng-deep .app-shell .about-section .section-heading > p,
+    :host ::ng-deep .app-shell .technologies-section .section-heading > p,
+    :host ::ng-deep .app-shell .impacts-section .section-heading > p {
+      font-size: 13px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell,
+  .app-shell * {
+    scroll-behavior: auto;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

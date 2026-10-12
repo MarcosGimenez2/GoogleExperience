@@ -1,0 +1,342 @@
+
+<section class="challenge-page" id="desafio">
+
+  <!-- MENU INICIAL -->
+  <section class="challenge-intro" *ngIf="!gameStarted && !campaignCompleted">
+    <span class="intro-kicker">GOOGLE EXPERIENCE / DESAFIO</span>
+    <h1>Google Detective<span>.</span></h1>
+    <p class="intro-lead">
+      Investigue fontes, encontre inconsistências e descubra o que realmente
+      pode ser comprovado. Cada caso exige atenção, lógica e pensamento crítico.
+    </p>
+
+    <div class="intro-features">
+      <div><span>01 / INVESTIGAÇÃO</span><strong>Procure pistas</strong><small>Examine documentos, registros e fontes.</small></div>
+      <div><span>02 / ANÁLISE</span><strong>Desconfie</strong><small>Nem toda evidência é relevante ou confiável.</small></div>
+      <div><span>03 / VEREDITO</span><strong>Resolva o caso</strong><small>Use as provas para justificar sua conclusão.</small></div>
+    </div>
+
+    <div class="intro-case">
+      <div class="intro-case-icon">⌕</div>
+      <div>
+        <span>CAMPANHA DE INVESTIGAÇÃO / 3 CASOS</span>
+        <h2>Você está pronto, agente?</h2>
+        <p>5 minutos no primeiro caso, 3 no segundo e 2 no desafio final.</p>
+      </div>
+    </div>
+
+    <button class="start-game-button" type="button" (click)="startGame()">
+      ▶ INICIAR INVESTIGAÇÃO
+    </button>
+    <small class="intro-note">Recomendado para jogadores a partir de 16 anos.</small>
+  </section>
+
+  <!-- JOGO -->
+  <section class="game-shell" #gameShell *ngIf="gameStarted && !campaignCompleted">
+
+    <header class="game-topbar">
+      <div class="game-brand">
+        <div class="brand-icon">G</div>
+        <div>
+          <strong>GOOGLE<span>DETECTIVE</span></strong>
+          <small>UNIDADE DE INVESTIGAÇÃO DIGITAL</small>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="timer-box" [class.timer-danger]="timeLeft <= 15">
+          <span>TEMPO RESTANTE</span>
+          <strong>{{ formatTime(timeLeft) }}</strong>
+        </div>
+        <div class="xp-box">
+          <span>XP ACUMULADO</span>
+          <strong>{{ score }}</strong>
+        </div>
+        <button class="window-button" type="button" (click)="toggleFullscreen()">
+          {{ isFullscreen ? '↙ MINIMIZAR' : '⛶ TELA CHEIA' }}
+        </button>
+        <button class="window-button exit-button" type="button" (click)="exitGame()">✕ SAIR</button>
+      </div>
+    </header>
+
+    <div class="game-content">
+      <aside class="game-sidebar">
+        <span class="side-label">PERFIL DO AGENTE</span>
+        <div class="detective-avatar">⌕</div>
+        <strong class="agent-name">Agente digital</strong>
+        <span class="rank-badge">{{ rank }}</span>
+
+        <div class="side-divider"></div>
+        <div class="stat-item"><span>XP TOTAL</span><strong>{{ score }}</strong></div>
+        <div class="stat-item"><span>PISTAS EXAMINADAS</span><strong>{{ examinedCount }}/{{ evidences.length }}</strong></div>
+        <div class="stat-item"><span>CASOS CONCLUÍDOS</span><strong>{{ casesSolved }}</strong></div>
+
+        <div class="side-divider"></div>
+        <span class="side-label">PROGRESSO DA CAMPANHA</span>
+        <div class="level-track">
+          <span [class.level-active]="currentLevel >= 0">01</span>
+          <i></i>
+          <span [class.level-active]="currentLevel >= 1">02</span>
+          <i></i>
+          <span [class.level-active]="currentLevel >= 2">03</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" [style.width.%]="progress"></div></div>
+        <small class="progress-label">{{ progress }}% DO CASO INVESTIGADO</small>
+
+        <div class="sidebar-tip">
+          <span>◆ DICA DO INVESTIGADOR</span>
+          <p>Informações repetidas em várias páginas podem ter uma única origem.</p>
+        </div>
+      </aside>
+
+      <main class="game-main">
+        <div class="mission-heading">
+          <div>
+            <span class="mission-kicker">CASO {{ activeCase.number }} / NÍVEL {{ currentLevel + 1 }}</span>
+            <h1>{{ activeCase.title }}<span>.</span></h1>
+            <p>{{ activeCase.briefing }}</p>
+          </div>
+          <span class="difficulty">● NÍVEL {{ currentLevel + 1 }} / 03</span>
+        </div>
+
+        <section class="case-claim">
+          <div class="claim-icon">!</div>
+          <div>
+            <span>AFIRMAÇÃO SOB INVESTIGAÇÃO</span>
+            <p>“{{ activeCase.claim }}”</p>
+          </div>
+        </section>
+
+        <div class="game-alert" *ngIf="feedback && !submitted && !gameOver"
+             [class.alert-success]="feedbackKind === 'success'"
+             [class.alert-error]="feedbackKind === 'error'">
+          {{ feedback }}
+        </div>
+
+        <!-- CENÁRIO -->
+        <section class="scene-frame">
+          <div class="scene-topbar">
+            <span>LOCAL: LABORATÓRIO DIGITAL</span>
+            <span>ARQUIVO GD-00{{ activeCase.number }}</span>
+          </div>
+
+          <div class="scene">
+            <div class="scene-grid"></div>
+            <div class="scene-light"></div>
+
+            <div class="scene-caption">
+              <span>ÁREA DE INVESTIGAÇÃO</span>
+              <strong>Examine o ambiente</strong>
+              <small>Clique nos objetos para analisar as evidências.</small>
+            </div>
+
+            <div class="desk"><div class="desk-front"></div></div>
+
+            <button class="scene-object computer-object" type="button"
+                    [class.found]="evidences[0].examined"
+                    [disabled]="submitted || gameOver || evidences[0].examined"
+                    (click)="examineEvidence(0)">
+              <span class="object-emoji">▣</span>
+              <span class="object-label">TERMINAL</span>
+              <span class="object-indicator">{{ evidences[0].examined ? '✓ EXAMINADO' : '● INVESTIGAR' }}</span>
+            </button>
+
+            <button class="scene-object document-object" type="button"
+                    [class.found]="evidences[1].examined"
+                    [disabled]="submitted || gameOver || evidences[1].examined"
+                    (click)="examineEvidence(1)">
+              <span class="object-emoji">▤</span>
+              <span class="object-label">DOCUMENTOS</span>
+              <span class="object-indicator">{{ evidences[1].examined ? '✓ EXAMINADO' : '● INVESTIGAR' }}</span>
+            </button>
+
+            <button class="scene-object phone-object" type="button"
+                    [class.found]="evidences[2].examined"
+                    [disabled]="submitted || gameOver || evidences[2].examined"
+                    (click)="examineEvidence(2)">
+              <span class="object-emoji">▯</span>
+              <span class="object-label">REGISTROS</span>
+              <span class="object-indicator">{{ evidences[2].examined ? '✓ EXAMINADO' : '● INVESTIGAR' }}</span>
+            </button>
+
+            <button class="scene-object extra-object" type="button"
+                    [class.found]="evidences[3].examined"
+                    [disabled]="submitted || gameOver || evidences[3].examined"
+                    (click)="examineEvidence(3)">
+              <span class="object-emoji">⌕</span>
+              <span class="object-label">ARQUIVO</span>
+              <span class="object-indicator">{{ evidences[3].examined ? '✓ EXAMINADO' : '● INVESTIGAR' }}</span>
+            </button>
+
+            <div class="scene-hint">
+              ⓘ Investigue as quatro fontes. O tempo continua correndo!
+            </div>
+          </div>
+
+          <div class="scene-bottom">
+            <span>EVIDÊNCIAS EXAMINADAS</span>
+            <div class="mini-evidence">
+              <span *ngFor="let evidence of evidences" [class.collected]="evidence.examined">
+                {{ evidence.examined ? '✓' : '?' }}
+              </span>
+            </div>
+            <strong>{{ examinedCount }}/{{ evidences.length }}</strong>
+          </div>
+        </section>
+
+        <!-- DOSSIÊ -->
+        <section class="evidence-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="mission-kicker">DOSSIÊ DA INVESTIGAÇÃO</span>
+              <h2>Registro de evidências</h2>
+            </div>
+            <span class="evidence-total">{{ collectedCount }} VÁLIDAS</span>
+          </div>
+
+          <div class="evidence-list">
+            <article class="evidence-item" *ngFor="let evidence of evidences">
+              <div class="evidence-icon" [class.collected]="evidence.collected">
+                {{ evidence.collected ? '✓' : evidence.examined ? '!' : '🔒' }}
+              </div>
+              <div>
+                <span class="evidence-type">{{ evidence.examined ? evidence.type : 'ARQUIVO BLOQUEADO' }}</span>
+                <h3>{{ evidence.examined ? evidence.title : 'Evidência ainda não examinada' }}</h3>
+                <p>{{ evidence.examined ? evidence.finding : 'Encontre o objeto correspondente no cenário para consultar esta informação.' }}</p>
+              </div>
+              <span class="evidence-state">
+                {{ evidence.collected ? 'VÁLIDA' : evidence.examined ? 'SUSPEITA' : 'BLOQUEADA' }}
+              </span>
+            </article>
+          </div>
+        </section>
+
+        <!-- VEREDITO -->
+        <section class="verdict-section">
+          <span class="mission-kicker">DECISÃO FINAL</span>
+          <h2>Qual é o seu veredito?</h2>
+          <p>Analise todas as evidências antes de registrar sua conclusão.</p>
+
+          <div class="verdict-grid">
+            <button type="button" class="verdict-option"
+                    [class.selected]="selectedVerdict === 'confiavel'"
+                    [disabled]="submitted || gameOver || !allEvidenceExamined"
+                    (click)="chooseVerdict('confiavel')">
+              <strong>✓ Confiável</strong>
+              <small>A afirmação é sustentada pelas evidências.</small>
+            </button>
+
+            <button type="button" class="verdict-option"
+                    [class.selected]="selectedVerdict === 'falsa'"
+                    [disabled]="submitted || gameOver || !allEvidenceExamined"
+                    (click)="chooseVerdict('falsa')">
+              <strong>× Falsa</strong>
+              <small>As evidências contradizem a afirmação.</small>
+            </button>
+
+            <button type="button" class="verdict-option"
+                    [class.selected]="selectedVerdict === 'inconclusiva'"
+                    [disabled]="submitted || gameOver || !allEvidenceExamined"
+                    (click)="chooseVerdict('inconclusiva')">
+              <strong>? Inconclusiva</strong>
+              <small>Não há evidências suficientes para decidir.</small>
+            </button>
+          </div>
+
+          <button class="submit-verdict" type="button"
+                  [disabled]="!selectedVerdict || submitted || gameOver || !allEvidenceExamined"
+                  (click)="submitVerdict()">
+            CONFIRMAR VEREDITO →
+          </button>
+
+          <div class="result-panel" *ngIf="submitted || gameOver">
+            <span class="mission-kicker">RELATÓRIO FINAL / GD-00{{ activeCase.number }}</span>
+            <h2>{{ feedbackTitle }}</h2>
+            <p>{{ feedbackMessage }}</p>
+            <div class="result-points">XP DESTA RODADA <strong>+{{ lastPoints }}</strong></div>
+
+            <button *ngIf="gameOver" class="restart-button" type="button" (click)="retryCase()">
+              ↻ TENTAR NOVAMENTE
+            </button>
+
+            <button *ngIf="submitted && selectedVerdict === activeCase.correctVerdict && currentLevel < cases.length - 1"
+                    class="restart-button" type="button" (click)="nextLevel()">
+              AVANÇAR PARA O NÍVEL {{ currentLevel + 2 }} →
+            </button>
+
+            <button *ngIf="submitted && selectedVerdict === activeCase.correctVerdict && currentLevel === cases.length - 1"
+                    class="restart-button" type="button" (click)="nextLevel()">
+              CONCLUIR CAMPANHA ✓
+            </button>
+
+            <button *ngIf="submitted && selectedVerdict !== activeCase.correctVerdict"
+                    class="restart-button" type="button" (click)="retryCase()">
+              REVISAR CASO ↻
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- MODAL DA PISTA -->
+    <div class="evidence-modal-backdrop" *ngIf="activeEvidence !== null"
+         (click)="closeEvidence()">
+      <section class="evidence-modal" (click)="$event.stopPropagation()">
+        <div class="modal-top">
+          <span>ARQUIVO CONFIDENCIAL</span>
+          <button type="button" (click)="closeEvidence()">✕</button>
+        </div>
+        <span class="mission-kicker">{{ evidences[activeEvidence].type }}</span>
+        <h2>{{ evidences[activeEvidence].title }}</h2>
+        <p>{{ evidences[activeEvidence].description }}</p>
+        <div class="modal-report">
+          <span>ANÁLISE DO DOCUMENTO</span>
+          <p>{{ evidences[activeEvidence].finding }}</p>
+        </div>
+        <button class="submit-verdict" type="button" (click)="collectEvidence()">
+          EXAMINAR E REGISTRAR →
+        </button>
+      </section>
+    </div>
+  </section>
+
+  <!-- CONFIRMAÇÃO DE SAÍDA -->
+  <div class="game-overlay" *ngIf="showExitConfirmation">
+    <section class="dialog-card">
+      <div class="dialog-icon">!</div>
+      <span class="mission-kicker">ENCERRAR INVESTIGAÇÃO</span>
+      <h2>Vai abandonar o caso, agente?</h2>
+      <p>Todo o progresso desta partida será perdido, incluindo XP, pistas coletadas e níveis concluídos.</p>
+      <div class="dialog-actions">
+        <button class="dialog-cancel" type="button" (click)="cancelExit()">CONTINUAR JOGANDO</button>
+        <button class="dialog-confirm" type="button" (click)="confirmExit()">SIM, SAIR</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- VITÓRIA DA CAMPANHA -->
+  <div class="victory-overlay" *ngIf="campaignCompleted">
+    <div class="fireworks" aria-hidden="true">
+      <span *ngFor="let spark of fireworksParticles; let i = index"
+            class="firework" [style.--i]="i"></span>
+    </div>
+
+    <section class="victory-card">
+      <div class="victory-emblem">★</div>
+      <span class="mission-kicker">UNIDADE DE INVESTIGAÇÃO DIGITAL</span>
+      <h1>CASOS ENCERRADOS<span>!</span></h1>
+      <p>Excelente trabalho, agente. Você concluiu todos os casos da campanha Google Detective.</p>
+
+      <div class="victory-stats">
+        <div><span>XP FINAL</span><strong>{{ score }}</strong></div>
+        <div><span>CASOS CONCLUÍDOS</span><strong>{{ casesSolved }}/3</strong></div>
+        <div><span>PATENTE</span><strong>{{ rank }}</strong></div>
+      </div>
+
+      <button class="victory-button" type="button" (click)="returnToMenu()">
+        VOLTAR AO INÍCIO →
+      </button>
+      <small>Uma nova investigação começa do zero.</small>
+    </section>
+  </div>
+</section>

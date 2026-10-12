@@ -1,0 +1,21 @@
+<div class="app-shell" [attr.data-theme]="theme">
+
+  <app-navbar [theme]="theme"
+              (themeChange)="changeTheme($event)">
+  </app-navbar>
+
+  <main class="site-content">
+    <app-home></app-home>
+
+    <app-sobre-nos></app-sobre-nos>
+
+    <app-tecnologias></app-tecnologias>
+
+    <app-desafio></app-desafio>
+
+    <app-impactos></app-impactos>
+  </main>
+
+  <app-footer></app-footer>
+
+</div>

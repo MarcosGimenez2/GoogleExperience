@@ -1,0 +1,30 @@
+<header class="header">
+  <a class="logo" href="#inicio" aria-label="Google Experience - Início">
+    <span class="google-word">Google</span>
+    <span class="logo-text">Experience</span>
+  </a>
+
+  <nav class="navigation" aria-label="Navegação principal">
+    <a class="nav-link" href="#inicio">Início</a>
+    <a class="nav-link" href="#sobre-nos">Sobre nós</a>
+    <a class="nav-link" href="#tecnologias">Tecnologias</a>
+    <a class="nav-link" href="#desafio">Desafio</a>
+    <a class="nav-link" href="#impactos">Impactos</a>
+  </nav>
+
+  <button class="theme-toggle"
+          type="button"
+          (click)="toggleTheme()"
+          [attr.aria-label]="theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'"
+          [attr.title]="theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'"
+          [attr.aria-pressed]="theme === 'light'">
+
+    <span class="theme-icon" aria-hidden="true">
+      {{ theme === 'dark' ? '☀' : '☾' }}
+    </span>
+
+    <span class="theme-label">
+      {{ theme === 'dark' ? 'Modo claro' : 'Modo escuro' }}
+    </span>
+  </button>
+</header>

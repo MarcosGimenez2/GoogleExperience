@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+.footer {
+  padding: 27px max(6%, calc((100% - 1120px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  border-top: 1px solid #ffffff12;
+  background: #060a13;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #f4f7fc;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+  .footer-logo .google-word {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -1.1px;
+    background: linear-gradient( 90deg, #4285f4 0%, #4285f4 32%, #34a853 48%, #fbbc05 65%, #ea4335 82%, #ea4335 100% );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+.footer p {
+  margin: 0;
+  color: #8291a9;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.back-to-top {
+  color: #a9c8ff;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+  .back-to-top:hover {
+    color: #fff;
+  }
+
+@media (max-width: 680px) {
+  .footer {
+    padding: 25px 5%;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+}
